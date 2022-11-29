@@ -25,6 +25,9 @@ app.use(express.urlencoded({ extended: true }));
 
 
 // Router Handling middlewares
+app.get('/', (req, res) => {
+    res.send("Server is running")
+})
 app.use('/api/user', userRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/company', companyRouter)

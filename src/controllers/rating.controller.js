@@ -30,10 +30,10 @@ const IncreseRatingOfCompany = async (Companyid, Ratings, Userid) => {
 
             const company = await Company.findById(Companyid);
             let count = company.RatingCount + 1;
-            const otp = (company.OTP + Ratings.OnTimePayment) / count
-            const negotiation = (company.Negotiation + Ratings.Negotiation) / count;
-            const responsive = (company.Responsive + Ratings.Responsive) / count;
-            const ethical = (company.Ethical + Ratings.Ethical) / count;
+            const otp = ((company.OTP * company.RatingCount) + Ratings.OnTimePayment) / count
+            const negotiation = ((company.Negotiation * company.RatingCount) + Ratings.Negotiation) / count;
+            const responsive = ((company.Responsive * company.RatingCount) + Ratings.Responsive) / count;
+            const ethical = ((company.Ethical * company.RatingCount) + Ratings.Ethical) / count;
             const sm = await Company.findByIdAndUpdate(Companyid, { OTP: otp, Negotiation: negotiation, Responsive: responsive, Ethical: ethical, RatingCount: count });
             return 1;
         }

@@ -5,14 +5,22 @@ const Company = require('../models/Company')
 //Checking the rater is unique or not
 const CheckUniqueRater = async (Companyid, Userid) => {
     try {
+
         const company = await Company.findById(Companyid);
         const raters = company.Raters;
         const isContained = raters.includes(Userid);
         if (!isContained) {
-            const newRaters = [...raters, Userid];
-            const sm = await Company.findByIdAndUpdate(Companyid, { Raters: newRaters });
-            return true;
+            try {
+                const newRaters = [...raters, Userid];
+                const sm = await Company.findByIdAndUpdate(Companyid, { Raters: newRaters });
+                console.log(sm);
+                return true;
+            } catch (err) {
+                return -1;
+            }
+
         } else {
+
             return false;
         }
 

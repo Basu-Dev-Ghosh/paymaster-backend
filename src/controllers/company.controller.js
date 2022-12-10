@@ -50,14 +50,14 @@ const getCompanies = async (req, res) => {
 }
 
 const getCompanyByName = async (req, res) => {
-    const { name, location } = req.params;
-    try {
-        const company = await Company.find({ $or: [{ CompanyName: name.toUpperCase() }, { CompanyLocation: location.toUpperCase() }] });
 
+    const { searchinput } = req.params;
+    try {
+        const company = await Company.find({ $or: [{ CompanyName: searchinput.toUpperCase() }, { CompanyLocation: searchinput.toUpperCase() }] });
         if (company) {
             res.status(202).json({ Messege: "Company Found", company })
         } else {
-            res.status(404).json({ Messege: "Not found any companies" })
+            res.status(404).json({ Messege: "No companies found" })
         }
 
     } catch (err) {
@@ -65,5 +65,8 @@ const getCompanyByName = async (req, res) => {
     }
 
 }
+
+
+
 
 module.exports = { CreateCompany, getCompanyById, getCompanyByName, getCompanies }

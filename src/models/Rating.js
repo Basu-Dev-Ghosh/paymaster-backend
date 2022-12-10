@@ -25,6 +25,12 @@ const RatingSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    Recommendation: {
+        type: Boolean,
+    },
+    Time: {
+        type: String,
+    },
     Screenshots: [
         {
             type: String,

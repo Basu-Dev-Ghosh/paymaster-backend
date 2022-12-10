@@ -13,7 +13,6 @@ const CheckUniqueRater = async (Companyid, Userid) => {
             try {
                 const newRaters = [...raters, Userid];
                 const sm = await Company.findByIdAndUpdate(Companyid, { Raters: newRaters });
-                console.log(sm);
                 return true;
             } catch (err) {
                 return -1;
@@ -26,6 +25,41 @@ const CheckUniqueRater = async (Companyid, Userid) => {
 
     } catch (err) {
         return false;
+    }
+}
+
+//Checking the rater is unique or not
+const onlyCheckUniqueRater = async (Companyid, Userid) => {
+    try {
+
+        const company = await Company.findById(Companyid);
+        const raters = company.Raters;
+        const isContained = raters.includes(Userid);
+        if (!isContained) {
+            return true;
+
+        } else {
+
+            return false;
+        }
+
+    } catch (err) {
+        return false;
+    }
+}
+
+
+
+
+
+const isUserRated = async (req, res) => {
+    const { id } = req.params;
+    const isUnique = await onlyCheckUniqueRater(id, req.user_id);
+    if (!isUnique) {
+        res.status(202).json({ msg: "User is Rated" })
+    }
+    else {
+        res.status(404).json({ msg: "User is unique" })
     }
 }
 
@@ -63,7 +97,7 @@ const IncreseRatingOfCompany = async (Companyid, Ratings, Userid) => {
 //Add a new Rating
 const CreateRating = async (req, res) => {
     // console.log(req.body);
-    const { Review, Ratings, Screenshots, Companyid } = req.body;
+    const { Review, Ratings, Screenshots, Companyid, Recommendation, Time } = req.body;
     try {
         const rating = new Rating(
             {
@@ -74,6 +108,8 @@ const CreateRating = async (req, res) => {
                 Negotiation: Ratings.Negotiation,
                 Responsive: Ratings.Responsive,
                 Ethical: Ratings.Ethical,
+                Recommendation,
+                Time,
                 Screenshots
 
             }
@@ -112,4 +148,4 @@ const getRatings = async (req, res) => {
 
 
 
-module.exports = { CreateRating, getRatings }
+module.exports = { CreateRating, getRatings, isUserRated }

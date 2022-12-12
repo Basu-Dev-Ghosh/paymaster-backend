@@ -145,7 +145,47 @@ const getRatings = async (req, res) => {
 }
 
 
+const likeRating = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const rating = await Rating.findById(id);
+        let likes = rating.Likes;
+        let newLikes = [...likes, req.user_id]
+        const sm = await Rating.findByIdAndUpdate(id, { Likes: newLikes });
+        if (sm) {
+            res.status(202).json({ Messege: "Rating Liked", rating })
+        } else {
+            res.status(422).json({ Messege: "Ratings Liking failed", rating })
+        }
+
+    } catch (err) {
+
+        res.status(422).json({ Messege: "Something Went Wrong" });
+    }
+}
+const dislikeRating = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const rating = await Rating.findById(id);
+        let disLikes = rating.Dislikes;
+        let newDIsLikes = [...disLikes, req.user_id]
+        const sm = await Rating.findByIdAndUpdate(id, { Dislikes: newDIsLikes });
+        if (sm) {
+            console.log(sm);
+
+            res.status(202).json({ Messege: "Rating Disliked", rating })
+        } else {
+            res.status(422).json({ Messege: "Ratings Disliking failed", rating })
+        }
+
+    } catch (err) {
+        res.status(422).json({ Messege: "Something Went Wrong" });
+    }
+}
 
 
 
-module.exports = { CreateRating, getRatings, isUserRated }
+
+
+
+module.exports = { CreateRating, getRatings, isUserRated, likeRating, dislikeRating }

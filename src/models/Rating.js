@@ -36,6 +36,16 @@ const RatingSchema = new mongoose.Schema({
             type: String,
         }
     ],
+    Likes: [
+        {
+            type: mongoose.SchemaTypes.ObjectId,
+        }
+    ],
+    Dislikes: [
+        {
+            type: mongoose.SchemaTypes.ObjectId,
+        }
+    ],
 });
 
 const Rating = new mongoose.model("Rating", RatingSchema);

@@ -4,16 +4,15 @@ const app = express();
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const port = process.env.PORT || 4000;
-
 // Requiring Database connection
 require('./config/db.config')
 
 
 //Requiring Routers
-const userRouter = require('./routes/userRouter')
-const authRouter = require('./routes/authRouter')
-const companyRouter = require('./routes/companyRouter')
-const ratingRouter = require('./routes/ratingRouter')
+const userRouter = require('./api/userRouter')
+const authRouter = require('./api/authRouter')
+const companyRouter = require('./api/companyRouter')
+const ratingRouter = require('./api/ratingRouter')
 
 
 //Configuring middlewares
